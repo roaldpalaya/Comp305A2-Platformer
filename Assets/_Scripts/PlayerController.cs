@@ -9,14 +9,24 @@ public class PlayerController : MonoBehaviour {
     private float _jump;
     private bool _faceRight;
     private bool _grounded;
+    private bool _groundJump;
+    private bool _blockAhead;
+    private bool _blockAhead1;
+    private bool _blockAhead2;
+    private bool _blockAhead3;
+    private bool _check;
 
     //PUBLIC VARIABLES
     public float Velocity = 15f;
     public float _jumpForce = 150f;
     public GameObject camera;
     public Transform _spawnPoint;
-	// Use this for initialization
-	void Start () {
+    public Transform SightCheck;
+    public Transform JumpCheck;
+    public Transform BlockCheck;
+   
+    // Use this for initialization
+    void Start () {
         this._init();
 	
 	}
@@ -25,7 +35,12 @@ public class PlayerController : MonoBehaviour {
 	void FixedUpdate () {
         if (this._grounded)
         {
-            this._move = Input.GetAxis("Horizontal");
+            this._groundJump = Physics2D.Linecast(this.SightCheck.position, this.JumpCheck.position,
+               1 << LayerMask.NameToLayer("Solid"));
+            this._blockAhead = Physics2D.Linecast(this.SightCheck.position, this.BlockCheck.position,
+                1 << LayerMask.NameToLayer("Solid"));
+            
+           this._move = Input.GetAxis("Horizontal");
             if (this._move > 0f)
             {
                 this._move = 1;
@@ -44,7 +59,7 @@ public class PlayerController : MonoBehaviour {
             {
                 this._move = 0;
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && this._groundJump && !this._blockAhead)//add linecasr as another requirement to jump
             {
                 this._jump = 1;
             }
@@ -65,10 +80,12 @@ public class PlayerController : MonoBehaviour {
        this.camera = GameObject.FindWithTag("MainCamera");
         this._faceRight = true;
         this._grounded = false;
+        this._blockAhead = false;
+        this._groundJump = false;
         this._move = 0f;
         this._jump = 0f;
     }
-
+    
     private void _flip()
     {
         if (this._faceRight)
