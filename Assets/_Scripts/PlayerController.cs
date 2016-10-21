@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
     //PUBLIC VARIABLES
     public float Velocity = 15f;
     public float _jumpForce = 150f;
-    private GameObject camera;
+    public GameObject camera;
     public Transform _spawnPoint;
 	// Use this for initialization
 	void Start () {
@@ -73,11 +73,11 @@ public class PlayerController : MonoBehaviour {
     {
         if (this._faceRight)
         {
-            this._trfrm.localScale = new Vector2(0.4f, 0.4f);
+            this._trfrm.localScale = new Vector2(1f, 1f);
         }
         else
         {
-            this._trfrm.localScale = new Vector2(-0.4f, .4f);
+            this._trfrm.localScale = new Vector2(-1f, 1f);
         }
     }
 
