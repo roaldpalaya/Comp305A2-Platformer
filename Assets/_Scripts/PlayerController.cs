@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
     //PUBLIC VARIABLES
     public float Velocity = 15f;
     public float _jumpForce = 150f;
-    public Camera camera;
+    private GameObject camera;
     public Transform _spawnPoint;
 	// Use this for initialization
 	void Start () {
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
     {
          this._trfrm = GetComponent<Transform>();
         this._rigidBody = GetComponent<Rigidbody2D>();
-       // this.camera = GameObject.FindWithTag("MainCamera");
+       this.camera = GameObject.FindWithTag("MainCamera");
         this._faceRight = true;
         this._grounded = false;
         this._move = 0f;
@@ -80,6 +80,17 @@ public class PlayerController : MonoBehaviour {
             this._trfrm.localScale = new Vector2(-0.4f, .4f);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("DeathPlane"))
+        {
+            this._trfrm.position = this._spawnPoint.position;
+            //life
+            //sound
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D other) {
         if (other.gameObject.CompareTag("Platform") || other.gameObject.CompareTag("Land"))
         {
