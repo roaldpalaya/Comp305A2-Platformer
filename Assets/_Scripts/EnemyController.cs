@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour {
     public Transform LineOfSight;
 
 
+    public AudioSource BarkSound;
+
     //public Transform LineOfSight;
 
 
@@ -51,7 +53,7 @@ public class EnemyController : MonoBehaviour {
             }
             if (this._playerSeen)
             {
-                this.Spd *= 2f;
+                this.Spd *= 3f;
                 if (this.Spd > this.maxSpd)
                 {
                     this.Spd = this.maxSpd;
@@ -61,6 +63,7 @@ public class EnemyController : MonoBehaviour {
 
         }
 	}
+
     
     private void OnCollisionEnter2D(Collision2D other)
     {

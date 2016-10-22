@@ -16,14 +16,21 @@ public class PlayerController : MonoBehaviour {
     private bool _blockAhead2;
     private bool _blockAhead3;
     private bool _check;
-    private GameObject camera;
+   // private GameObject camera;
     private GameObject _spawnPoint;
+
+    private GameObject _gControllerObject;
+    private GameController _gController;
 
     //PUBLIC VARIABLES
     public float Velocity = 15f;
     public float _jumpForce = 150f;
     
     public Animator _animator;
+    public AudioSource JumpSound;
+    public AudioSource Pickupsound;
+    public AudioSource DeathSound;
+    public AudioSource DogDeathSound;
 
     public Transform SightCheck;
     public Transform JumpCheck;
@@ -70,6 +77,7 @@ public class PlayerController : MonoBehaviour {
             {
                 this._animator.SetInteger("CatState", 2);
                 this._jump = 1;
+                this.JumpSound.Play();
             }
             this._rigidBody.AddForce(new Vector2(this._move * this.Velocity, this._jump*this._jumpForce), ForceMode2D.Force);
         } else
@@ -78,7 +86,7 @@ public class PlayerController : MonoBehaviour {
             this._jump = 0f;
         }
 
-       this.camera.transform.position = new Vector3((this._trfrm.position.x)+10f, this._trfrm.position.y, -15f);
+       //this.camera.transform.position = new Vector3((this._trfrm.position.x)+10f, this._trfrm.position.y, -15f);
 
       
         Debug.Log(this._grounded);
@@ -88,7 +96,9 @@ public class PlayerController : MonoBehaviour {
          this._trfrm = GetComponent<Transform>();
         this._rigidBody = GetComponent<Rigidbody2D>();
         this._animator = GetComponent<Animator>();
-        this.camera = GameObject.FindGameObjectWithTag("MainCamera");
+        //this.camera = GameObject.FindGameObjectWithTag("MainCamera");
+        this._gControllerObject = GameObject.Find("Game Controller");
+        this._gController = this._gControllerObject.GetComponent < GameController >() as GameController; 
         this._spawnPoint = GameObject.FindWithTag("SpawnPoint");
         this._faceRight = true;
         this._grounded = false;
@@ -114,9 +124,33 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("DeathPlane"))
         {
+            this.DeathSound.Play();
+            this._gController.Lives -= 1;
             this._trfrm.position = this._spawnPoint.transform.position;
-            //life
-            //sound
+            
+        }
+        if (other.gameObject.CompareTag("Mushroom"))
+        {
+            Destroy(other.gameObject);
+            this.Pickupsound.Play();
+            this._gController.Score +=100;
+        }
+        if (other.gameObject.CompareTag("Dog"))
+        {
+            this.DeathSound.Play();
+            this._trfrm.position = this._spawnPoint.transform.position;
+            this._gController.Lives-=1;
+
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Dog"))
+        {
+            this.DogDeathSound.Play();
+            Destroy(other.gameObject);
+            this._gController.Score+=200;
         }
     }
 

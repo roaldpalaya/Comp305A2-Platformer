@@ -4,6 +4,8 @@ using System.Collections;
 public class CheckpointController : MonoBehaviour {
     private Transform _trfrm;
     private GameObject SpawnPoint;
+
+    public AudioSource ChkpointSound;
 	// Use this for initialization
 	void Start () {
         this._trfrm = GetComponent<Transform>();
@@ -19,6 +21,7 @@ public class CheckpointController : MonoBehaviour {
         if (other.gameObject.CompareTag("Cat"))
         {
             this.SpawnPoint.transform.position = this._trfrm.position;
+            this.ChkpointSound.Play();
         }
     }
 }
