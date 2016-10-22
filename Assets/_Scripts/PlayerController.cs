@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class PlayerController : MonoBehaviour {
     //PRIVATE VARIABLES
     private Transform _trfrm;
@@ -15,12 +16,15 @@ public class PlayerController : MonoBehaviour {
     private bool _blockAhead2;
     private bool _blockAhead3;
     private bool _check;
+    private GameObject camera;
+    private GameObject _spawnPoint;
 
     //PUBLIC VARIABLES
     public float Velocity = 15f;
     public float _jumpForce = 150f;
-    public GameObject camera;
-    public Transform _spawnPoint;
+    
+    public Animator _animator;
+
     public Transform SightCheck;
     public Transform JumpCheck;
     public Transform BlockCheck;
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour {
            this._move = Input.GetAxis("Horizontal");
             if (this._move > 0f)
             {
+                this._animator.SetInteger("CatState", 1);
                 this._move = 1;
                 this._faceRight = true;
                 this._flip();
@@ -50,6 +55,7 @@ public class PlayerController : MonoBehaviour {
             }
             else if (this._move < 0f)
             {
+                this._animator.SetInteger("CatState",1);
                 this._move = -1;
                 this._faceRight = false;
                 this._flip();
@@ -57,10 +63,12 @@ public class PlayerController : MonoBehaviour {
             }
             else
             {
+                this._animator.SetInteger("CatState", 0);
                 this._move = 0;
             }
             if (Input.GetKeyDown(KeyCode.Space) && this._groundJump && !this._blockAhead)//add linecasr as another requirement to jump
             {
+                this._animator.SetInteger("CatState", 2);
                 this._jump = 1;
             }
             this._rigidBody.AddForce(new Vector2(this._move * this.Velocity, this._jump*this._jumpForce), ForceMode2D.Force);
@@ -70,14 +78,18 @@ public class PlayerController : MonoBehaviour {
             this._jump = 0f;
         }
 
-        this.camera.transform.position = new Vector3((this._trfrm.position.x*0.85f)+6f, this._trfrm.position.y, -10f);
+       this.camera.transform.position = new Vector3((this._trfrm.position.x)+10f, this._trfrm.position.y, -15f);
+
+      
         Debug.Log(this._grounded);
 	}
     private void _init()
     {
          this._trfrm = GetComponent<Transform>();
         this._rigidBody = GetComponent<Rigidbody2D>();
-       this.camera = GameObject.FindWithTag("MainCamera");
+        this._animator = GetComponent<Animator>();
+        this.camera = GameObject.FindGameObjectWithTag("MainCamera");
+        this._spawnPoint = GameObject.FindWithTag("SpawnPoint");
         this._faceRight = true;
         this._grounded = false;
         this._blockAhead = false;
@@ -102,7 +114,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("DeathPlane"))
         {
-            this._trfrm.position = this._spawnPoint.position;
+            this._trfrm.position = this._spawnPoint.transform.position;
             //life
             //sound
         }
@@ -117,6 +129,7 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionExit2D (Collision2D other)
     {
         this._grounded = false;
+        this._animator.SetInteger("CatState", 2);
     }
 
  }
