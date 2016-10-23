@@ -1,7 +1,7 @@
-﻿/*TwinStick Assignment
+﻿/* Platoformer Assignment
  * Roald Russel T. Palaya
  * 300714999
- * Date last Modified: 10/3/2016
+ * Date last Modified: 10/22/2016
  */
 
 
@@ -12,16 +12,19 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
+    //PRIVATE VARIABLES
     private int _lives;
     private int _score;
 
+
+    //PUBLIC VARIABLES
     [Header("UI objects")]
     public Text LivesLbl;
     public Text ScoreLbl;
    
     
 
-
+    
     public int Lives
     {
         get {
@@ -75,6 +78,6 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene("RestartScene");
 
     }
-    //Enables to play the game again
+    
     
 }

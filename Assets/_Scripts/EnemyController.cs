@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/* Platoformer Assignment
+ * Roald Russel T. Palaya
+ * 300714999
+ * Date last Modified: 10/22/2016
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class EnemyController : MonoBehaviour {
@@ -8,8 +14,9 @@ public class EnemyController : MonoBehaviour {
     private bool _grounded;
     private bool _groundAhead;
     private bool _playerSeen;
-
     private float Spd = 2f;
+
+    //PUBLIC VARS
     public float maxSpd = 4f;
     public Transform SightStart;
     public Transform SightEnd;

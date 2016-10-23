@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/* Platoformer Assignment
+ * Roald Russel T. Palaya
+ * 300714999
+ * Date last Modified: 10/22/2016
+ */
+using UnityEngine;
 using System.Collections;
 
 
@@ -27,6 +32,8 @@ public class PlayerController : MonoBehaviour {
     public float _jumpForce = 150f;
     
     public Animator _animator;
+
+    
     public AudioSource JumpSound;
     public AudioSource Pickupsound;
     public AudioSource DeathSound;

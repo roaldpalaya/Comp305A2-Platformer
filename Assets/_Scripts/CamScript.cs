@@ -1,7 +1,14 @@
-﻿using UnityEngine;
+﻿/* Platoformer Assignment
+ * Roald Russel T. Palaya
+ * 300714999
+ * Date last Modified: 10/22/2016
+ */
+
+using UnityEngine;
 using System.Collections;
 
 public class CamScript : MonoBehaviour {
+    //PRIVATE VARS
     private bool _camBounds;
     private Vector2 _vel;
     private Transform _trfrm;
@@ -21,7 +28,7 @@ public class CamScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        
+            
             transform.position = new Vector3(Mathf.Clamp(_cat.transform.position.x, _minCamPos.x, _maxCamPos.x),
                 Mathf.Clamp(_cat.transform.position.y, _minCamPos.y, _maxCamPos.y),transform.position.z);
 
