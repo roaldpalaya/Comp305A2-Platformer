@@ -13,7 +13,7 @@ public class CamScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
         this._cat = GameObject.FindGameObjectWithTag("Cat");
-        this._minCamPos.x = -5f;
+        this._minCamPos.x = -4.6f;
         this._maxCamPos.x = 350f;
         this._minCamPos.y = 3f;
         this._maxCamPos.y = 5f;
